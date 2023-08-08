@@ -1,0 +1,36 @@
+(env
+ (_
+  (flags
+   (:standard -rectypes -warn-error -33))))
+
+(library
+ (name reverso)
+ (modules reverso)
+ (libraries OCanren)
+ (inline_tests)
+ (preprocess
+  (pps OCanren-ppx.ppx_fresh ppx_inline_test)))
+
+(library
+ (name reverso_fixed)
+ (modules reverso_fixed)
+ (libraries OCanren)
+ (inline_tests)
+ (preprocess
+  (pps OCanren-ppx.ppx_fresh ppx_inline_test)))
+
+(executable
+ (name run_reverso)
+ (modules run_reverso)
+ (libraries GT OCanren OCanren.tester reverso))
+
+(executable
+ (name run_fixed)
+ (modules run_fixed)
+ (libraries GT OCanren OCanren.tester reverso_fixed))
+
+(cram
+ (deps run_reverso.exe))
+
+(cram
+ (deps run_fixed.exe))

@@ -1,0 +1,22 @@
+(env
+ (_
+  (flags
+   (:standard -rectypes -warn-error -33))))
+
+(library
+ (name addo)
+ (modules addo)
+ (libraries OCanren)
+ (inline_tests)
+ (preprocess
+  (pps OCanren-ppx.ppx_fresh ppx_inline_test)))
+
+(executable
+ (name run)
+ (modules run)
+ (libraries GT OCanren OCanren.tester addo)
+ (preprocess
+  (pps OCanren-ppx.ppx_fresh OCanren-ppx.ppx_repr ppx_inline_test)))
+
+(cram
+ (deps run.exe))
