@@ -13,3 +13,6 @@ Another argument is about appending and reversing lists. The relation `reverso` 
 ### Goal
 
 In this repo I specified two examples where runtime specialization could help improve performance of relations (currently in the bad cases they deverge). The concrete heuristics may be different for various relational programs and discovering them is a future work. Right now, I'm curious whether JIT compilation could give us technical ability to specialize relational programs on the fly for these two not very complicated examples.
+
+
+See also: https://kakadu.github.io/2021/appendo.html
