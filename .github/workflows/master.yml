@@ -1,0 +1,41 @@
+name: Build master
+
+on:
+  push:
+    paths-ignore:
+      - 'README.md'
+    branches:
+      - 'master'
+  
+jobs:
+  build:
+    env:
+      OPAMROOT: /home/user/.opam
+
+    runs-on: ubuntu-22.04
+    container:
+      image: kakadu18/ocaml:pltlab
+      options: --user user
+
+    steps:
+      - run: opam --version
+      - run: opam exec -- ocamlopt --version
+      - run: opam update
+
+      - name: Cancel Previous Runs
+        uses: styfle/cancel-workflow-action@0.11.0
+        with:
+          access_token: ${{ github.token }}
+
+      - name: Checkout code
+        uses: actions/checkout@v3
+        with:
+          submodules: true
+
+      - name: Install dependencies
+        run: |
+          opam exec -- make deps
+          opan exec -- dune build @install -p GT,OCanren,OCanren-ppx
+
+
+      - run: opam exec -- make test # dune runtest
