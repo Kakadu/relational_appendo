@@ -1,0 +1,14 @@
+(env
+ (dev
+  (flags
+   (:standard -warn-error -A))))
+
+(executable
+ (name bench)
+ (modules bench)
+ (flags
+  (:standard -rectypes))
+ (modes native)
+ (libraries benchmark OCanren OCanren.tester)
+ (preprocess
+  (pps OCanren-ppx.ppx_repr OCanren-ppx.ppx_fresh GT.ppx GT.ppx_all)))
