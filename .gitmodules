@@ -2,6 +2,9 @@
 	path = OCanren
 	url = https://github.com/PLTools/OCanren.git
 	branch = master
+	shallow = true
 [submodule "GT"]
 	path = GT
 	url = https://github.com/PLTools/GT.git
+	shallow = true
+

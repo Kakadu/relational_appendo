@@ -16,7 +16,7 @@ let rec addo_2 a b sum =
     ]
 
 let rec addo_fixed a b sum =
-  debug_var a (Fun.flip OCanren.reify) (function
+  debug_var a OCanren.reify (function
     | [ Value _ ] ->
         conde
           [
