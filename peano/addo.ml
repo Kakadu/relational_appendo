@@ -16,24 +16,38 @@ let rec addo_2 a b sum =
     ]
 
 let rec addo_fixed a b sum =
-  debug_var a OCanren.reify (function
-    | [ Value _ ] ->
-        conde
-          [
-            a === Std.Nat.zero &&& (b === sum);
+  conde
+    [
+      a === Std.Nat.zero &&& (b === sum);
+      debug_var (Std.pair a b) (Std.Pair.reify OCanren.reify OCanren.reify)
+        (function
+        | [] | _ :: _ :: _ | [ Var _ ] -> assert false
+        | [ Value (Value _, _) ] ->
             fresh prev
               (a === Std.Nat.succ prev)
-              (addo_fixed prev b (Std.Nat.succ sum));
-          ]
-    | [ Var _ ] ->
-        conde
-          [
-            b === Std.Nat.zero &&& (a === sum);
+              (addo_fixed prev b (Std.Nat.succ sum))
+        | [ Value (Var _, Var _) ] | [ Value (_, Value _) ] ->
             fresh prev
               (b === Std.Nat.succ prev)
-              (addo_fixed a prev (Std.Nat.succ sum));
-          ]
-    | _ -> assert false)
+              (addo_fixed a prev (Std.Nat.succ sum)));
+    ]
+(*
+   let rec addo_fixed2 a b sum =
+     conde
+       [
+         a === Std.Nat.zero &&& (b === sum);
+         debug_var a OCanren.reify (function
+           | [ Value _ ] ->
+               fresh prev
+                 (a === Std.Nat.succ prev)
+                 (addo_fixed2 prev b (Std.Nat.succ sum))
+           | [ Var _ ] ->
+               fresh prev
+                 (b === Std.Nat.succ prev)
+                 (addo_fixed2 a prev (Std.Nat.succ sum))
+           | _ -> assert false);
+       ] *)
+
 (* conde
    [
      b === Std.Nat.zero &&& (a === sum);

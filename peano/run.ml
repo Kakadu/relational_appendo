@@ -21,6 +21,27 @@ let () =
   run_r Std.Nat.prj_exn (GT.show Std.Nat.ground) all_answers q qh
     (REPR (fun a -> addo_fixed a (Std.nat 5) (Std.nat 10)))
 
+let all_answers ss = ss |> OCanren.Stream.take |> ignore
+
+let __ =
+  let nat_5 = Std.nat 10 in
+  let nat_10 = Std.nat 20 in
+  let prepare rel arg sum () =
+    all_answers
+      (OCanren.run q
+         (fun a -> rel arg a sum)
+         (fun rr -> rr#reify OCanren.prj_exn))
+  in
+
+  let samples =
+    Benchmark.throughputN 5
+      [
+        ("addo_1", prepare addo_1 nat_5 nat_10, ());
+        ("addo_f", prepare addo_fixed nat_5 nat_10, ());
+        (* ("addo_f2", prepare addo_fixed2 nat_5 nat_10, ()); *)
+      ]
+  in
+  Benchmark.tabulate samples
 (* let () =
    run_r (Std.List.prj_exn prj_exn)
      (GT.show Std.List.ground (GT.show GT.int))

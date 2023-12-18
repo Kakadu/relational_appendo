@@ -14,7 +14,7 @@
 (executable
  (name run)
  (modules run)
- (libraries GT OCanren OCanren.tester addo)
+ (libraries GT OCanren OCanren.tester addo benchmark)
  (preprocess
   (pps OCanren-ppx.ppx_fresh OCanren-ppx.ppx_repr ppx_inline_test)))
 
