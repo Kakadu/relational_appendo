@@ -38,6 +38,7 @@ let __ =
       [
         ("addo_1", prepare addo_1 nat_5 nat_10, ());
         ("addo_f", prepare addo_fixed nat_5 nat_10, ());
+        ("addo_f_2", prepare addo_fixed_2 nat_5 nat_10, ());
         (* ("addo_f2", prepare addo_fixed2 nat_5 nat_10, ()); *)
       ]
   in

@@ -31,26 +31,17 @@ let rec addo_fixed a b sum =
               (b === Std.Nat.succ prev)
               (addo_fixed a prev (Std.Nat.succ sum)));
     ]
-(*
-   let rec addo_fixed2 a b sum =
-     conde
-       [
-         a === Std.Nat.zero &&& (b === sum);
-         debug_var a OCanren.reify (function
-           | [ Value _ ] ->
-               fresh prev
-                 (a === Std.Nat.succ prev)
-                 (addo_fixed2 prev b (Std.Nat.succ sum))
-           | [ Var _ ] ->
-               fresh prev
-                 (b === Std.Nat.succ prev)
-                 (addo_fixed2 a prev (Std.Nat.succ sum))
-           | _ -> assert false);
-       ] *)
 
-(* conde
-   [
-     b === Std.Nat.zero &&& (a === sum);
-     fresh prev (b === Std.Nat.succ prev) (addo_2 a prev (Std.Nat.succ sum));
-   ]
-*)
+let rec addo_fixed_2 a b sum =
+  conde
+    [
+      a === Std.Nat.zero &&& (b === sum);
+      is_free a
+        ~sk:
+          (fresh prev
+             (b === Std.Nat.succ prev)
+             (addo_fixed a prev (Std.Nat.succ sum)))
+        (fresh prev
+           (a === Std.Nat.succ prev)
+           (addo_fixed prev b (Std.Nat.succ sum)));
+    ]
