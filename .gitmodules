@@ -1,7 +1,7 @@
 [submodule "OCanren"]
 	path = OCanren
-	url = https://github.com/PLTools/OCanren.git
-	branch = master
+	url = https://github.com/Kakadu/OCanren.git
+	branch = is_free
 	shallow = true
 [submodule "GT"]
 	path = GT
