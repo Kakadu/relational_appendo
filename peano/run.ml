@@ -15,11 +15,11 @@ let __ () =
 
 let () =
   run_r Std.Nat.prj_exn (GT.show Std.Nat.ground) all_answers q qh
-    (REPR (fun b -> addo_fixed (Std.nat 5) b (Std.nat 10)))
+    (REPR (fun b -> Impl2.addo (Std.nat 5) b (Std.nat 10)))
 
 let () =
   run_r Std.Nat.prj_exn (GT.show Std.Nat.ground) all_answers q qh
-    (REPR (fun a -> addo_fixed a (Std.nat 5) (Std.nat 10)))
+    (REPR (fun a -> Impl2.addo a (Std.nat 5) (Std.nat 10)))
 
 let all_answers ss = ss |> OCanren.Stream.take |> ignore
 
@@ -37,18 +37,12 @@ let __ =
     Benchmark.throughputN 5
       [
         ("addo_1", prepare addo_1 nat_5 nat_10, ());
-        ("addo_f", prepare addo_fixed nat_5 nat_10, ());
-        ("addo_f_2", prepare addo_fixed_2 nat_5 nat_10, ());
-        (* ("addo_f2", prepare addo_fixed2 nat_5 nat_10, ()); *)
+        (* ("addo_f", prepare Impl1.addo nat_5 nat_10, ()); *)
+        ("addo_f_2", prepare Impl2.addo nat_5 nat_10, ());
       ]
   in
   Benchmark.tabulate samples
-(* let () =
-   run_r (Std.List.prj_exn prj_exn)
-     (GT.show Std.List.ground (GT.show GT.int))
-     all_answers qr qrh
-     ("", fun xs ys -> appendo xs ys (Std.list ( !! ) [ 1; 2; 3 ]))
-*)
+
 (*
 include struct
   open Direction1
